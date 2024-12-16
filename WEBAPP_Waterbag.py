@@ -1,0 +1,280 @@
+import streamlit as st
+import matplotlib.pyplot as plt
+import firebase_admin
+from firebase_admin import credentials, db
+
+# Configura il layout della pagina per avere tre colonne
+st.set_page_config(layout="wide")
+
+st.markdown(
+    """
+    <style>
+    div.stColumn {
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Inizializza Firebase
+if not firebase_admin._apps:  # Evita di inizializzare più volte
+    cred = credentials.Certificate("firebase_key.json")  # File JSON della tua configurazione Firebase
+    firebase_admin.initialize_app(cred, {
+        "databaseURL": "https://waterbag-dbb05-default-rtdb.europe-west1.firebasedatabase.app/"
+})
+
+# Test della connessione
+try:
+    ref = db.reference("/")  # Accedi al nodo principale
+    data = ref.get()
+    if data is not None:
+        print("Connessione riuscita. Dati trovati:", data)
+    else:
+        print("Connessione riuscita, ma nessun dato trovato.")
+except Exception as e:
+    print("Errore durante la connessione al database:", e)
+
+    
+# Funzione per caricare il listino personalizzato
+def carica_listino(cliente):
+    try:
+        # Riferimento al nodo del cliente
+        ref = db.reference(f"listini/{cliente}")
+        listino = ref.get()
+
+        # Se il nodo non esiste, crea un listino di default
+        if listino is None:
+            listino = [
+                { "misura": 2, "prezzo_unitario": 10 },
+                { "misura": 3, "prezzo_unitario": 11.8 },
+                { "misura": 4, "prezzo_unitario": 13.4 },
+                { "misura": 5, "prezzo_unitario": 15 },
+                { "misura": 6, "prezzo_unitario": 20.6 },
+                { "misura": 8, "prezzo_unitario": 23.5 },
+                { "misura": 10, "prezzo_unitario": 26.30 },
+                { "misura": 12, "prezzo_unitario": 29 },
+                { "misura": 14, "prezzo_unitario": 32.70 },
+                { "misura": 15, "prezzo_unitario": 34.60 },
+                { "misura": 16, "prezzo_unitario": 36 },
+                { "misura": 18, "prezzo_unitario": 39 },
+                { "misura": 20, "prezzo_unitario": 42 },
+                { "misura": 24, "prezzo_unitario": 48 }
+            ]
+            # Salva il listino di default nel database per il nuovo cliente
+            ref.set(listino)
+        return listino
+    except Exception as e:
+        st.error(f"Errore durante il caricamento del listino: {e}")
+        return []
+
+# Funzione per salvare il listino personalizzato
+def salva_listino(cliente, listino):
+    ref = db.reference(f"listini/{cliente}")  # Percorso nel database per il cliente
+    ref.set(listino)  # Salva il nuovo listino nel database
+
+# Titolo principale
+st.title("Calcola waterbag trincea")
+
+
+# Selezione del cliente
+st.subheader("Identificazione Cliente")
+cliente = st.text_input("Inserisci il tuo nome o ID cliente:", value="cliente1")
+
+# Crea tre sezioni: colonna per i dati di input, colonna per il disegno e colonna per il riepilogo
+col1, col2, col3 = st.columns([1, 2, 1])  # Layout personalizzato: [1/4, 1/2, 1/4]
+
+# Carica il listino per il cliente
+listino = carica_listino(cliente)
+
+# Dizionario per memorizzare i waterbag
+waterbag_dict = {}
+    
+
+# Colonna di sinistra: inserimento dati
+with col1:
+    st.header("Inserisci i dati della Trincea")
+	
+    # Input per larghezza e lunghezza
+    larghezza = st.number_input("Larghezza (metri):", min_value=1, value=5, step=1)
+    lunghezza = st.number_input("Lunghezza (metri):", min_value=1, value=10, step=1)
+    
+    # Bottone per disegnare
+    disegna = st.button("Disegna Trincea")
+
+    st.markdown("---")
+
+    # Mostra il listino e consenti la modifica
+    st.subheader(f"Listino di {cliente}")
+    nuovi_prezzi = []
+    
+    for item in listino:
+        misura = item["misura"]
+        prezzo = float(item["prezzo_unitario"])  # Forza il prezzo in float
+        
+        # Usa st.number_input per creare campi modificabili
+        nuovo_prezzo = st.number_input(
+            f"Prezzo unitario per {misura} mt:",
+            value=float(prezzo),  # Assicurati che value sia un float
+            min_value=0.0,        # Assicurati che min_value sia un float
+            step=0.1,             # Lo step è già un float
+            format="%.2f"
+        )
+        nuovi_prezzi.append({"misura": misura, "prezzo_unitario": nuovo_prezzo})
+    
+    # Bottone per salvare i nuovi prezzi
+    if st.button("Salva Prezzi"):
+        salva_listino(cliente, nuovi_prezzi)
+        st.success(f"I prezzi sono stati salvati per il cliente '{cliente}'!")
+    
+
+
+# Colonna di destra: disegno
+with col2:
+    st.header("Disegno della Trincea")
+    
+    # Se il bottone viene premuto, disegna la trincea
+    if disegna:
+        # Creazione del grafico
+        fig, ax = plt.subplots(figsize=(6, 6))
+
+        # Disegna la trincea principale (rettangolo blu)
+        ax.add_patch(plt.Rectangle((0, 0), larghezza, lunghezza, edgecolor='blue', facecolor='lightblue', lw=2))
+
+        # Calcola il numero di sezioni e l'avanzamento
+        num_sezioni = lunghezza // 5  # Quante sezioni complete di 5 metri ci sono
+        avanzamento = lunghezza % 5  # Quanti metri avanzano oltre i multipli di 5
+
+        # Funzione per aggiungere waterbag al dizionario
+        def aggiungi_waterbag(tipologia, dimensione, posizione):
+            key = f"{tipologia} {dimensione}m"
+            if key not in waterbag_dict:
+                waterbag_dict[key] = 0
+            waterbag_dict[key] += 1
+
+        # Funzione per disegnare rettangoli orizzontali
+        def disegna_orizzontali(y_start):
+            if larghezza in [1, 7, 9, 11, 13]:
+                # Rettangolo unico da larghezza + 1 metro
+                extra_larghezza = larghezza + 1
+                x_start = (larghezza - extra_larghezza) / 2
+                ax.add_patch(plt.Rectangle((x_start, y_start), extra_larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag("Orizzontale", extra_larghezza, f"y={y_start}")
+            elif larghezza <= 16:
+                # Rettangolo unico da larghezza
+                ax.add_patch(plt.Rectangle((0, y_start), larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag("Orizzontale", larghezza, f"y={y_start}")
+            elif larghezza in [18, 22]:
+                # Due rettangoli da metà larghezza + 1 metro
+                segment_length = (larghezza / 2) + 1
+                ax.add_patch(plt.Rectangle((-1, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag("Orizzontale", segment_length, f"y={y_start}")
+                aggiungi_waterbag("Orizzontale", segment_length, f"y={y_start}")
+            elif larghezza in [20, 24]:
+                # Due rettangoli, uno da metà larghezza e uno da metà larghezza + 2
+                segment_length_1 = larghezza / 2
+                segment_length_2 = segment_length_1 + 2
+                ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(plt.Rectangle((segment_length_1 - 1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag("Orizzontale", segment_length_1, f"y={y_start}")
+                aggiungi_waterbag("Orizzontale", segment_length_2, f"y={y_start}")
+
+        # Disegna i rettangoli orizzontali sopra, sotto e ogni 5 metri dentro la trincea
+        disegna_orizzontali(-1)  # Sopra la trincea
+        disegna_orizzontali(lunghezza + 0.6)  # Sotto la trincea
+        for y in range(5, int(lunghezza), 5):  # Ogni 5 metri dentro la trincea
+            disegna_orizzontali(y)
+
+        # Disegna i rettangoli verticali_____________________________________________________________________
+        for i in range(int(num_sezioni)):
+            if avanzamento == 1 and i==(int(num_sezioni)-1):
+                break
+            y_start = i * 5
+            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Destra
+            aggiungi_waterbag("Verticale", 5, f"x=-1, y={y_start}")
+            aggiungi_waterbag("Verticale", 5, f"x={larghezza + 0.5}, y={y_start}")
+
+        # Gestione dell'avanzamento
+        if avanzamento == 1:
+            # Aggiungi un ulteriore rettangolo da 6 metri
+            y_start = (num_sezioni-1) * 5
+            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 6, edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 6, edgecolor='black', facecolor='red', lw=1))  # Destra
+            aggiungi_waterbag("Verticale", 6, f"x=-1, y={y_start}")
+            aggiungi_waterbag("Verticale", 6, f"x={larghezza + 0.5}, y={y_start}")
+        elif avanzamento == 2:
+            # Disegna un rettangolo aggiuntivo da 2 metri
+            y_start = num_sezioni * 5
+            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 2, edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 2, edgecolor='black', facecolor='red', lw=1))
+            aggiungi_waterbag("Verticale", 2, f"x=-1, y={y_start}")
+            aggiungi_waterbag("Verticale", 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
+        elif avanzamento in [3, 4]:
+            # Disegna un rettangolo aggiuntivo da 5 metri (sborda rispetto alla trincea)
+            y_start = num_sezioni * 5
+            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))
+            aggiungi_waterbag("Verticale", 2, f"x=-1, y={y_start}")
+            aggiungi_waterbag("Verticale", 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
+            
+        # Configura gli assi
+        ax.set_xlim(-2, larghezza + 2)  # Imposta i limiti dell'asse x in metri
+        ax.set_ylim(-1, lunghezza + 6)  # Imposta i limiti dell'asse y in metri
+        ax.set_aspect('equal', adjustable='box')
+
+        # Aggiungi una griglia con tacche ogni 5 metri
+        ax.set_xticks(range(0, larghezza + 3, 5))  # Tacche sull'asse x ogni 5 metri
+        ax.set_yticks(range(0, lunghezza + 7, 5))  # Tacche sull'asse y ogni 5 metri
+        ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+
+        # Titoli ed etichette
+        ax.set_title(f"Trincea con waterbag: {larghezza}m x {lunghezza}m", fontsize=8)
+        ax.set_xlabel("Larghezza (metri)")
+        ax.set_ylabel("Lunghezza (metri)")
+
+        # Mostra il grafico nella colonna di destra
+        st.pyplot(fig)
+        
+    else:
+        st.write("Inserisci i dati e premi 'Disegna Trincea' per visualizzare il disegno.")
+        
+# Colonna destra: riepilogo
+with col3:
+    st.subheader("Riepilogo Waterbag Utilizzati")
+    prezzo_totale = 0
+    volume_totale = 0  # Variabile per calcolare il volume totale
+
+    if disegna:
+        for waterbag, count in waterbag_dict.items():
+            # Estrai la dimensione del waterbag come float
+            dimensione = float(waterbag.split()[1].replace("m", ""))
+            
+            # Calcola il prezzo unitario dal listino
+            prezzo_unitario = next((item["prezzo_unitario"] for item in listino if item["misura"] == dimensione), 0)
+            
+            # Calcola il costo totale per questo tipo di waterbag
+            costo_totale = prezzo_unitario * count
+            prezzo_totale += costo_totale
+            
+            # Calcola il volume di acqua per singolo waterbag
+            volume_per_bag = (dimensione * 14.2) - 4.2
+            
+            # Aggiungi il volume totale per il numero di waterbag di questa dimensione
+            volume_totale += volume_per_bag * count
+            
+            # Mostra i dettagli del waterbag nel riepilogo
+            st.write(f"{waterbag}: {count} pezzi (Prezzo unitario: €{prezzo_unitario:.2f}, Totale: €{costo_totale:.2f}, Volume singolo: {volume_per_bag:.2f} litri)")
+
+        # Mostra il prezzo totale alla fine
+        st.markdown(f"### Prezzo Totale: €{prezzo_totale:.2f}")
+        
+        # Mostra il volume totale necessario
+        st.markdown(f"### Volume Totale Acqua: {volume_totale:.2f} litri")
+    else:
+        st.write("Nessun waterbag disegnato. Premi 'Disegna Trincea'.")
+
