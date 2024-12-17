@@ -323,8 +323,8 @@ with col2:
 
         # Titoli ed etichette
         ax.set_title(f"{t("bunker")} {larghezza}m x {lunghezza}m", fontsize=8)
-        ax.set_xlabel(t("width"))
-        ax.set_ylabel(t("lenght")
+        ax.set_xlabel(f"{t("width")}")
+        ax.set_ylabel(f"{t("lenght"})
 
         # Mostra il grafico nella colonna di destra
         st.pyplot(fig)
