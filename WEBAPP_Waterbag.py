@@ -112,21 +112,27 @@ translations = {
         "summary_section": "Riepilogo Waterbag Utilizzati",
         "total_price": "Prezzo Totale",
         "total_volume": "Volume Totale Acqua",
-	"width": "Larghezza (metri):",
-	"lenght": "Lunghezza (metri):"
+		"width": "Larghezza (metri):",
+		"lenght": "Lunghezza (metri):",
+		"insert": "Inserisci i dati della Trincea"
+		"price_list": "Listino di"
+		"saved": "I prezzi sono stati salvati per il cliente"
     },
     "en": {
-        "title": "Calculate Waterbag Trench",
+        "title": "Calculate Waterbag Bunker",
         "customer_id": "Customer Identification",
         "enter_name": "Enter your name or customer ID:",
-        "draw_button": "Draw Trench",
+        "draw_button": "Draw Bunker",
         "save_button": "Save Prices",
-        "drawing_section": "Trench Drawing",
+        "drawing_section": "Bunker Drawing",
         "summary_section": "Waterbag Summary",
         "total_price": "Total Price",
-        "total_volume": "Total Water Volume",
-	"width": "Width (metres)",
-	"lenght": "Lenght (metri):"
+        "total_volume": "Total Water Volume"
+		"width": "Width (metres)",
+		"lenght": "Lenght (metri):",
+		"insert": "Enter the Bunker data"
+		"price_list": "Price list"
+		"saved": "Prices have been saved for the customer"
     }
 }
 
@@ -159,19 +165,19 @@ waterbag_dict = {}
 
 # Colonna di sinistra: inserimento dati
 with col1:
-    st.header("Inserisci i dati della Trincea")
+    st.header(t("insert"))
 	
     # Input per larghezza e lunghezza
     larghezza = st.number_input(t("width"), min_value=1, value=5, step=1)
     lunghezza = st.number_input(t("lenght"), min_value=1, value=10, step=1)
     
     # Bottone per disegnare
-    disegna = st.button("Disegna Trincea")
+    disegna = st.button(t("draw_button"))
 
     st.markdown("---")
 
     # Mostra il listino e consenti la modifica
-    st.subheader(f"Listino di {cliente}")
+    st.subheader(f"{t('price_list')} {cliente}")
     nuovi_prezzi = []
     
     for item in listino:
@@ -189,15 +195,15 @@ with col1:
         nuovi_prezzi.append({"misura": misura, "prezzo_unitario": nuovo_prezzo})
     
     # Bottone per salvare i nuovi prezzi
-    if st.button("Salva Prezzi"):
+    if st.button(t("save_button")):
         salva_listino(cliente, nuovi_prezzi)
-        st.success(f"I prezzi sono stati salvati per il cliente '{cliente}'!")
+        st.success(f"{t("saved")} '{cliente}'!")
     
 
 
 # Colonna di destra: disegno
 with col2:
-    st.header("Disegno della Trincea")
+    st.header(t("drawing_section"))
     
     # Se il bottone viene premuto, disegna la trincea
     if disegna:
