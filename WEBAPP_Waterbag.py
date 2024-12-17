@@ -114,7 +114,7 @@ translations = {
         "total_volume": "Volume Totale Acqua"
     },
     "en": {
-        "title": "Calculate Waterbag Trench",
+        "title": "Calculate Waterbag Bunker",
         "customer_id": "Customer Identification",
         "enter_name": "Enter your name or customer ID:",
         "draw_button": "Draw Trench",
@@ -140,8 +140,8 @@ st.title(t("title"))
 
 
 # Selezione del cliente
-st.subheader("Identificazione Cliente")
-cliente = st.text_input("Inserisci il tuo nome o ID cliente:", value="cliente1")
+st.subheader(t("customer_id"))
+cliente = st.text_input(t("enter_name"), value="Default")
 
 # Crea tre sezioni: colonna per i dati di input, colonna per il disegno e colonna per il riepilogo
 col1, col2, col3 = st.columns([1, 2, 1])  # Layout personalizzato: [1/4, 1/2, 1/4]
@@ -158,8 +158,8 @@ with col1:
     st.header("Inserisci i dati della Trincea")
 	
     # Input per larghezza e lunghezza
-    larghezza = st.number_input("Larghezza (metri):", min_value=1, value=5, step=1)
-    lunghezza = st.number_input("Lunghezza (metri):", min_value=1, value=10, step=1)
+    larghezza = st.number_input(t("width"), min_value=1, value=5, step=1)
+    lunghezza = st.number_input(t("lenght"), min_value=1, value=10, step=1)
     
     # Bottone per disegnare
     disegna = st.button("Disegna Trincea")
