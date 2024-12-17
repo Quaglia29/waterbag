@@ -116,7 +116,10 @@ translations = {
 	"lenght": "Lunghezza (metri):",
 	"insert": "Inserisci i dati della Trincea",
 	"price_list": "Listino di",
-	"saved": "I prezzi sono stati salvati per il cliente"
+	"saved": "I prezzi sono stati salvati per il cliente",
+	"insert_draw": "Inserisci i dati e premi 'Disegna Trincea' per visualizzare il disegno",
+	"result": "Nessun waterbag disegnato. Premi 'Disegna Trincea'.",
+	"unit_prize": "Prezzo unitario per"
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -132,7 +135,10 @@ translations = {
 	"lenght": "Lenght (metri):",
 	"insert": "Enter the Bunker data",
 	"price_list": "Price list",
-	"saved": "Prices have been saved for the customer"
+	"saved": "Prices have been saved for the customer",
+	"insert_draw": "Enter the data and press 'Draw Bunker' to view the drawing",
+	"result": "No waterbag drawn. Press 'Draw Bunker'.",
+	"unit_prize": "unit price for"
     }
 }
 
@@ -310,11 +316,11 @@ with col2:
         st.pyplot(fig)
         
     else:
-        st.write("Inserisci i dati e premi 'Disegna Trincea' per visualizzare il disegno.")
+        st.write(t("insert_draw"))
         
 # Colonna destra: riepilogo
 with col3:
-    st.subheader("Riepilogo Waterbag Utilizzati")
+    st.subheader(t("summary_section"))
     prezzo_totale = 0
     volume_totale = 0  # Variabile per calcolare il volume totale
 
@@ -340,10 +346,10 @@ with col3:
             st.write(f"{waterbag}: {count} pezzi (Prezzo unitario: €{prezzo_unitario:.2f}, Totale: €{costo_totale:.2f}, Volume singolo: {volume_per_bag:.2f} litri)")
 
         # Mostra il prezzo totale alla fine
-        st.markdown(f"### Prezzo Totale: €{prezzo_totale:.2f}")
+        st.markdown(f"### {t("total_price")}: €{prezzo_totale:.2f}")
         
         # Mostra il volume totale necessario
-        st.markdown(f"### Volume Totale Acqua: {volume_totale:.2f} litri")
+        st.markdown(f"### {t("total_volume")}: {volume_totale:.2f} litri")
     else:
-        st.write("Nessun waterbag disegnato. Premi 'Disegna Trincea'.")
+        st.write(t("result"))
 
