@@ -1,7 +1,9 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import credentials, db, initialize_app
+import os
+import json
 
 # Configura il layout della pagina per avere tre colonne
 st.set_page_config(layout="wide")
@@ -20,12 +22,29 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inizializza Firebase
+
+
+# Carica le credenziali Firebase dalle Streamlit Secrets
+firebase_creds = {
+    "type": os.getenv("FIREBASE_KEY_type"),
+    "project_id": os.getenv("FIREBASE_KEY_project_id"),
+    "private_key_id": os.getenv("FIREBASE_KEY_private_key_id"),
+    "private_key": os.getenv("FIREBASE_KEY_private_key").replace("\\n", "\n"),
+    "client_email": os.getenv("FIREBASE_KEY_client_email"),
+    "client_id": os.getenv("FIREBASE_KEY_client_id"),
+    "auth_uri": os.getenv("FIREBASE_KEY_auth_uri"),
+    "token_uri": os.getenv("FIREBASE_KEY_token_uri"),
+    "auth_provider_x509_cert_url": os.getenv("FIREBASE_KEY_auth_provider_x509_cert_url"),
+    "client_x509_cert_url": os.getenv("FIREBASE_KEY_client_x509_cert_url"),
+    "universe_domain": os.getenv("FIREBASE_KEY_universe_domain")
+}
+
+# Inizializza Firebase con le credenziali lette
 if not firebase_admin._apps:  # Evita di inizializzare più volte
-    cred = credentials.Certificate("firebase_key.json")  # File JSON della tua configurazione Firebase
+    cred = credentials.Certificate(firebase_creds)
     firebase_admin.initialize_app(cred, {
         "databaseURL": "https://waterbag-dbb05-default-rtdb.europe-west1.firebasedatabase.app/"
-})
+    })
 
 # Test della connessione
 try:
