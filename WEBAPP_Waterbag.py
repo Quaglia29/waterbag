@@ -357,7 +357,7 @@ with col3:
             volume_totale += volume_per_bag * count
             
             # Mostra i dettagli del waterbag nel riepilogo
-            st.write(f"{waterbag}: {count} pezzi {(t("prize_u")} €{prezzo_unitario:.2f}, {t("tot")}: €{costo_totale:.2f}, {t("single_volume")}: {volume_per_bag:.2f} l)")
+            st.write(f"{waterbag}: {count} pezzi {t('prize_u')} €{prezzo_unitario:.2f}, {t('tot')}: €{costo_totale:.2f}, {t('single_volume')}: {volume_per_bag:.2f} l")
 
         # Mostra il prezzo totale alla fine
         st.markdown(f"### {t("total_price")}: €{prezzo_totale:.2f}")
