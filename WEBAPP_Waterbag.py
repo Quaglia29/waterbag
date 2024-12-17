@@ -22,21 +22,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Carica l'intera sezione FIREBASE_KEY dalle Streamlit Secrets
+firebase_secrets = st.secrets["FIREBASE_KEY"]
 
-
-# Carica le credenziali Firebase dalle Streamlit Secrets
+# Carica le credenziali Firebase
 firebase_creds = {
-    "type": os.getenv("FIREBASE_KEY_type"),
-    "project_id": os.getenv("FIREBASE_KEY_project_id"),
-    "private_key_id": os.getenv("FIREBASE_KEY_private_key_id"),
-    "private_key": os.getenv("FIREBASE_KEY_private_key").replace("\\n", "\n"),
-    "client_email": os.getenv("FIREBASE_KEY_client_email"),
-    "client_id": os.getenv("FIREBASE_KEY_client_id"),
-    "auth_uri": os.getenv("FIREBASE_KEY_auth_uri"),
-    "token_uri": os.getenv("FIREBASE_KEY_token_uri"),
-    "auth_provider_x509_cert_url": os.getenv("FIREBASE_KEY_auth_provider_x509_cert_url"),
-    "client_x509_cert_url": os.getenv("FIREBASE_KEY_client_x509_cert_url"),
-    "universe_domain": os.getenv("FIREBASE_KEY_universe_domain")
+    "type": firebase_secrets["type"],
+    "project_id": firebase_secrets["project_id"],
+    "private_key_id": firebase_secrets["private_key_id"],
+    "private_key": firebase_secrets["private_key"].replace("\\n", "\n"),
+    "client_email": firebase_secrets["client_email"],
+    "client_id": firebase_secrets["client_id"],
+    "auth_uri": firebase_secrets["auth_uri"],
+    "token_uri": firebase_secrets["token_uri"],
+    "auth_provider_x509_cert_url": firebase_secrets["auth_provider_x509_cert_url"],
+    "client_x509_cert_url": firebase_secrets["client_x509_cert_url"],
+    "universe_domain": firebase_secrets["universe_domain"]
 }
 
 # Inizializza Firebase con le credenziali lette
