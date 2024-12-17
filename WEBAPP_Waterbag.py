@@ -119,7 +119,14 @@ translations = {
 	"saved": "I prezzi sono stati salvati per il cliente",
 	"insert_draw": "Inserisci i dati e premi 'Disegna Trincea' per visualizzare il disegno",
 	"result": "Nessun waterbag disegnato. Premi 'Disegna Trincea'.",
-	"unit_prize": "Prezzo unitario per"
+	"unit_prize": "Prezzo unitario per",
+	"horizontal": "Orizzontale",
+	"vertical": "Verticale",
+	"bunker": "Trincea con waterbag:",
+	"prize_u": "prezzo_unitario",
+	"size": "misura",
+	"tot": "Totale",
+	"single_volume": "Volume singolo"
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -138,8 +145,15 @@ translations = {
 	"saved": "Prices have been saved for the customer",
 	"insert_draw": "Enter the data and press 'Draw Bunker' to view the drawing",
 	"result": "No waterbag drawn. Press 'Draw Bunker'.",
-	"unit_prize": "unit price for"
-    }
+	"unit_prize": "unit price for",
+	"horizontal": "Horizontal",
+	"vertical": "Vertical",
+	"bunker": "Trench with waterbag:",
+	"prize_u": "unitary price",
+	"size": "size",
+	"tot": "Total",
+	"single_volume": "Single volume"
+}
 }
 
 # Selettore lingua
@@ -237,26 +251,26 @@ with col2:
                 extra_larghezza = larghezza + 1
                 x_start = (larghezza - extra_larghezza) / 2
                 ax.add_patch(plt.Rectangle((x_start, y_start), extra_larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
-                aggiungi_waterbag("Orizzontale", extra_larghezza, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), extra_larghezza, f"y={y_start}")
             elif larghezza <= 16:
                 # Rettangolo unico da larghezza
                 ax.add_patch(plt.Rectangle((0, y_start), larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
-                aggiungi_waterbag("Orizzontale", larghezza, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), larghezza, f"y={y_start}")
             elif larghezza in [18, 22]:
                 # Due rettangoli da metà larghezza + 1 metro
                 segment_length = (larghezza / 2) + 1
                 ax.add_patch(plt.Rectangle((-1, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
                 ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
-                aggiungi_waterbag("Orizzontale", segment_length, f"y={y_start}")
-                aggiungi_waterbag("Orizzontale", segment_length, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length, f"y={y_start}")
             elif larghezza in [20, 24]:
                 # Due rettangoli, uno da metà larghezza e uno da metà larghezza + 2
                 segment_length_1 = larghezza / 2
                 segment_length_2 = segment_length_1 + 2
                 ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
                 ax.add_patch(plt.Rectangle((segment_length_1 - 1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
-                aggiungi_waterbag("Orizzontale", segment_length_1, f"y={y_start}")
-                aggiungi_waterbag("Orizzontale", segment_length_2, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
 
         # Disegna i rettangoli orizzontali sopra, sotto e ogni 5 metri dentro la trincea
         disegna_orizzontali(-1)  # Sopra la trincea
@@ -271,8 +285,8 @@ with col2:
             y_start = i * 5
             ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
             ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Destra
-            aggiungi_waterbag("Verticale", 5, f"x=-1, y={y_start}")
-            aggiungi_waterbag("Verticale", 5, f"x={larghezza + 0.5}, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 5, f"x=-1, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 5, f"x={larghezza + 0.5}, y={y_start}")
 
         # Gestione dell'avanzamento
         if avanzamento == 1:
@@ -280,22 +294,22 @@ with col2:
             y_start = (num_sezioni-1) * 5
             ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 6, edgecolor='black', facecolor='red', lw=1))  # Sinistra
             ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 6, edgecolor='black', facecolor='red', lw=1))  # Destra
-            aggiungi_waterbag("Verticale", 6, f"x=-1, y={y_start}")
-            aggiungi_waterbag("Verticale", 6, f"x={larghezza + 0.5}, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 6, f"x=-1, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 6, f"x={larghezza + 0.5}, y={y_start}")
         elif avanzamento == 2:
             # Disegna un rettangolo aggiuntivo da 2 metri
             y_start = num_sezioni * 5
             ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 2, edgecolor='black', facecolor='red', lw=1))  # Sinistra
             ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 2, edgecolor='black', facecolor='red', lw=1))
-            aggiungi_waterbag("Verticale", 2, f"x=-1, y={y_start}")
-            aggiungi_waterbag("Verticale", 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
+            aggiungi_waterbag(t("vertical"), 2, f"x=-1, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
         elif avanzamento in [3, 4]:
             # Disegna un rettangolo aggiuntivo da 5 metri (sborda rispetto alla trincea)
             y_start = num_sezioni * 5
             ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
             ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))
-            aggiungi_waterbag("Verticale", 2, f"x=-1, y={y_start}")
-            aggiungi_waterbag("Verticale", 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
+            aggiungi_waterbag(t("vertical"), 2, f"x=-1, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
             
         # Configura gli assi
         ax.set_xlim(-2, larghezza + 2)  # Imposta i limiti dell'asse x in metri
@@ -308,9 +322,9 @@ with col2:
         ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
 
         # Titoli ed etichette
-        ax.set_title(f"Trincea con waterbag: {larghezza}m x {lunghezza}m", fontsize=8)
-        ax.set_xlabel("Larghezza (metri)")
-        ax.set_ylabel("Lunghezza (metri)")
+        ax.set_title(f"{t("bunker")} {larghezza}m x {lunghezza}m", fontsize=8)
+        ax.set_xlabel(t("width"))
+        ax.set_ylabel(t("lenght")
 
         # Mostra il grafico nella colonna di destra
         st.pyplot(fig)
@@ -330,7 +344,7 @@ with col3:
             dimensione = float(waterbag.split()[1].replace("m", ""))
             
             # Calcola il prezzo unitario dal listino
-            prezzo_unitario = next((item["prezzo_unitario"] for item in listino if item["misura"] == dimensione), 0)
+            prezzo_unitario = next((item[t("prize_u")] for item in listino if item[t("size")] == dimensione), 0)
             
             # Calcola il costo totale per questo tipo di waterbag
             costo_totale = prezzo_unitario * count
@@ -343,7 +357,7 @@ with col3:
             volume_totale += volume_per_bag * count
             
             # Mostra i dettagli del waterbag nel riepilogo
-            st.write(f"{waterbag}: {count} pezzi (Prezzo unitario: €{prezzo_unitario:.2f}, Totale: €{costo_totale:.2f}, Volume singolo: {volume_per_bag:.2f} litri)")
+            st.write(f"{waterbag}: {count} pezzi {(t("prize_u")} €{prezzo_unitario:.2f}, {t("tot")}: €{costo_totale:.2f}, {t("single_volume")}: {volume_per_bag:.2f} l)")
 
         # Mostra il prezzo totale alla fine
         st.markdown(f"### {t("total_price")}: €{prezzo_totale:.2f}")
