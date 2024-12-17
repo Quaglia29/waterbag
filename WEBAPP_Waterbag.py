@@ -192,7 +192,7 @@ with col1:
         
         # Usa st.number_input per creare campi modificabili
         nuovo_prezzo = st.number_input(
-            f"Prezzo unitario per {misura} mt:",
+            f"{t("unit_prize")} {misura} mt:",
             value=float(prezzo),  # Assicurati che value sia un float
             min_value=0.0,        # Assicurati che min_value sia un float
             step=0.1,             # Lo step è già un float
