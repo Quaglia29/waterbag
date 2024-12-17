@@ -96,8 +96,47 @@ def salva_listino(cliente, listino):
     ref = db.reference(f"listini/{cliente}")  # Percorso nel database per il cliente
     ref.set(listino)  # Salva il nuovo listino nel database
 
+
+
+
+
+
+translations = {
+    "it": {
+        "title": "Calcola Waterbag Trincea",
+        "customer_id": "Identificazione Cliente",
+        "enter_name": "Inserisci il tuo nome o ID cliente:",
+        "draw_button": "Disegna Trincea",
+        "save_button": "Salva Prezzi",
+        "drawing_section": "Disegno della Trincea",
+        "summary_section": "Riepilogo Waterbag Utilizzati",
+        "total_price": "Prezzo Totale",
+        "total_volume": "Volume Totale Acqua"
+    },
+    "en": {
+        "title": "Calculate Waterbag Trench",
+        "customer_id": "Customer Identification",
+        "enter_name": "Enter your name or customer ID:",
+        "draw_button": "Draw Trench",
+        "save_button": "Save Prices",
+        "drawing_section": "Trench Drawing",
+        "summary_section": "Waterbag Summary",
+        "total_price": "Total Price",
+        "total_volume": "Total Water Volume"
+    }
+}
+
+# Selettore lingua
+lang = st.sidebar.selectbox("Seleziona Lingua / Select Language", ["it", "en"])
+
+# Funzione per tradurre
+def t(key):
+    return translations[lang].get(key, key)
+
+
+
 # Titolo principale
-st.title("Calcola waterbag trincea")
+st.title(t("title"))
 
 
 # Selezione del cliente
