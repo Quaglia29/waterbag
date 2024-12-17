@@ -126,7 +126,8 @@ translations = {
 	"prize_u": "prezzo_unitario",
 	"size": "misura",
 	"tot": "Totale",
-	"single_volume": "Volume singolo"
+	"single_volume": "Volume singolo",
+	"pieces": "pezzi"
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -152,7 +153,8 @@ translations = {
 	"prize_u": "unitary price",
 	"size": "size",
 	"tot": "Total",
-	"single_volume": "Single volume"
+	"single_volume": "Single volume",
+	"pieces": "pieces"
 	}
 }
 
@@ -357,7 +359,7 @@ with col3:
             volume_totale += volume_per_bag * count
             
             # Mostra i dettagli del waterbag nel riepilogo
-            st.write(f"{waterbag}: {count} pezzi ({t('prize_u')} €{prezzo_unitario:.2f}, {t('tot')}: €{costo_totale:.2f}, {t('single_volume')}: {volume_per_bag:.2f} l)")
+            st.write(f"{waterbag}: {count} {t('pieces')} {t('prize_u')}: €{prezzo_unitario:.2f}, {t('tot')}: €{costo_totale:.2f}, {t('single_volume')}: {volume_per_bag:.2f} l")
 	    
 
         # Mostra il prezzo totale alla fine
