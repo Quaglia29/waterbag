@@ -111,10 +111,12 @@ translations = {
         "drawing_section": "Disegno della Trincea",
         "summary_section": "Riepilogo Waterbag Utilizzati",
         "total_price": "Prezzo Totale",
-        "total_volume": "Volume Totale Acqua"
+        "total_volume": "Volume Totale Acqua",
+		"width": "Larghezza (metri):",
+		"lenght": "Lunghezza (metri):",
     },
     "en": {
-        "title": "Calculate Waterbag Bunker",
+        "title": "Calculate Waterbag Trench",
         "customer_id": "Customer Identification",
         "enter_name": "Enter your name or customer ID:",
         "draw_button": "Draw Trench",
@@ -123,6 +125,8 @@ translations = {
         "summary_section": "Waterbag Summary",
         "total_price": "Total Price",
         "total_volume": "Total Water Volume"
+		"width": "Width (metres)",
+		"lenght": "Lenght (metri):",
     }
 }
 
