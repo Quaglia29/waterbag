@@ -344,7 +344,7 @@ with col3:
             dimensione = float(waterbag.split()[1].replace("m", ""))
             
             # Calcola il prezzo unitario dal listino
-            prezzo_unitario = next((item[t("prize_u")] for item in listino if item[t("size")] == dimensione), 0)
+	    prezzo_unitario = next((item["prezzo_unitario"] for item in listino if item["misura"] == dimensione), 0)
             
             # Calcola il costo totale per questo tipo di waterbag
             costo_totale = prezzo_unitario * count
