@@ -127,7 +127,7 @@ translations = {
         "drawing_section": "Bunker Drawing",
         "summary_section": "Waterbag Summary",
         "total_price": "Total Price",
-        "total_volume": "Total Water Volume"
+        "total_volume": "Total Water Volume",
 	"width": "Width (metres)",
 	"lenght": "Lenght (metri):",
 	"insert": "Enter the Bunker data",
