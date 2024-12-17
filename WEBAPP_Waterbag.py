@@ -112,8 +112,8 @@ translations = {
         "summary_section": "Riepilogo Waterbag Utilizzati",
         "total_price": "Prezzo Totale",
         "total_volume": "Volume Totale Acqua",
-		"width": "Larghezza (metri):",
-		"lenght": "Lunghezza (metri):",
+	"width": "Larghezza (metri):",
+	"lenght": "Lunghezza (metri):"
     },
     "en": {
         "title": "Calculate Waterbag Trench",
@@ -124,9 +124,9 @@ translations = {
         "drawing_section": "Trench Drawing",
         "summary_section": "Waterbag Summary",
         "total_price": "Total Price",
-        "total_volume": "Total Water Volume"
-		"width": "Width (metres)",
-		"lenght": "Lenght (metri):",
+        "total_volume": "Total Water Volume",
+	"width": "Width (metres)",
+	"lenght": "Lenght (metri):"
     }
 }
 
