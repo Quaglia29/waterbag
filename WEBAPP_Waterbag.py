@@ -112,11 +112,11 @@ translations = {
         "summary_section": "Riepilogo Waterbag Utilizzati",
         "total_price": "Prezzo Totale",
         "total_volume": "Volume Totale Acqua",
-		"width": "Larghezza (metri):",
-		"lenght": "Lunghezza (metri):",
-		"insert": "Inserisci i dati della Trincea"
-		"price_list": "Listino di"
-		"saved": "I prezzi sono stati salvati per il cliente"
+	"width": "Larghezza (metri):",
+	"lenght": "Lunghezza (metri):",
+	"insert": "Inserisci i dati della Trincea",
+	"price_list": "Listino di",
+	"saved": "I prezzi sono stati salvati per il cliente"
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -128,11 +128,11 @@ translations = {
         "summary_section": "Waterbag Summary",
         "total_price": "Total Price",
         "total_volume": "Total Water Volume"
-		"width": "Width (metres)",
-		"lenght": "Lenght (metri):",
-		"insert": "Enter the Bunker data"
-		"price_list": "Price list"
-		"saved": "Prices have been saved for the customer"
+	"width": "Width (metres)",
+	"lenght": "Lenght (metri):",
+	"insert": "Enter the Bunker data",
+	"price_list": "Price list",
+	"saved": "Prices have been saved for the customer"
     }
 }
 
