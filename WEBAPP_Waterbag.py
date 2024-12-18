@@ -40,11 +40,15 @@ firebase_creds = {
     "universe_domain": firebase_secrets["universe_domain"]
 }
 
-# Inizializza Firebase con le credenziali lette
-if not firebase_admin._apps:  # Evita di inizializzare più volte
-    cred = credentials.Certificate(firebase_creds)
+# Evita di inizializzare Firebase più volte
+if not firebase_admin._apps:
+    # Leggi il databaseURL dalle secrets
+    database_url = st.secrets["FIREBASE_KEY"]["databaseURL"]
+
+    # Fornisci il certificato e inizializza Firebase
+    cred = credentials.Certificate(firebase_secrets)  # Il percorso del certificato deve essere ancora gestito.
     firebase_admin.initialize_app(cred, {
-        "databaseURL": "https://waterbag-dbb05-default-rtdb.europe-west1.firebasedatabase.app/"
+        "databaseURL": database_url
     })
 
 # Test della connessione
