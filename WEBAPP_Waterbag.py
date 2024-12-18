@@ -208,7 +208,7 @@ with col1:
         
         # Usa st.number_input per creare campi modificabili
         nuovo_prezzo = st.number_input(
-            f"{t("unit_prize")} {misura} mt:",
+            f"{t('unit_prize')} {misura} mt:",
             value=float(prezzo),  # Assicurati che value sia un float
             min_value=0.0,        # Assicurati che min_value sia un float
             step=0.1,             # Lo step è già un float
@@ -219,7 +219,7 @@ with col1:
     # Bottone per salvare i nuovi prezzi
     if st.button(t("save_button")):
         salva_listino(cliente, nuovi_prezzi)
-        st.success(f"{t("saved")} '{cliente}'!")
+        st.success(f"{t('saved')} '{cliente}'!")
     
 
 
@@ -324,9 +324,9 @@ with col2:
         ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
 
         # Titoli ed etichette
-        ax.set_title(f"{t("bunker")} {larghezza}m x {lunghezza}m", fontsize=8)
-        ax.set_xlabel(f"{t("width")}")
-        ax.set_ylabel(f"{t("lenght")}")
+        ax.set_title(f"{t('bunker')} {larghezza}m x {lunghezza}m", fontsize=8)
+        ax.set_xlabel(f"{t('width')}")
+        ax.set_ylabel(f"{t('lenght')}")
 
         # Mostra il grafico nella colonna di destra
         st.pyplot(fig)
@@ -363,10 +363,10 @@ with col3:
 	    
 
         # Mostra il prezzo totale alla fine
-        st.markdown(f"### {t("total_price")}: €{prezzo_totale:.2f}")
+        st.markdown(f"### {t('total_price')}: €{prezzo_totale:.2f}")
         
         # Mostra il volume totale necessario
-        st.markdown(f"### {t("total_volume")}: {volume_totale:.2f} litri")
+        st.markdown(f"### {t('total_volume')}: {volume_totale:.2f} litri")
     else:
         st.write(t("result"))
 
