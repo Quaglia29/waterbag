@@ -370,7 +370,7 @@ with col3:
         st.markdown(f"### {t('total_price')}: €{prezzo_totale:.2f}")
         
         # Mostra il volume totale necessario
-        st.markdown(f"### {t('total_volume')}: {volume_totale:.2f} litri")
+        st.markdown(f"### {t('total_volume')}: {volume_totale:.2f} l")
     else:
         st.write(t("result"))
 
