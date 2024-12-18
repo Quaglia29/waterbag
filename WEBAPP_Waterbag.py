@@ -314,8 +314,8 @@ with col2:
             y_start = num_sezioni * 5
             ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
             ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))
-            aggiungi_waterbag(t("vertical"), 2, f"x=-1, y={y_start}")
-            aggiungi_waterbag(t("vertical"), 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
+            aggiungi_waterbag(t("vertical"), 5, f"x=-1, y={y_start}")
+            aggiungi_waterbag(t("vertical"), 5, f"x={larghezza + 0.5}, y={y_start}")# Destra
             
         # Configura gli assi
         ax.set_xlim(-2, larghezza + 2)  # Imposta i limiti dell'asse x in metri
