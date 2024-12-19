@@ -154,7 +154,7 @@ translations = {
 	"unit_prize": "unit price for",
 	"horizontal": "Horizontal",
 	"vertical": "Vertical",
-	"bunker": "Trench with waterbag:",
+	"bunker": "Bunker with waterbag:",
 	"prize_u": "unitary price",
 	"size": "size",
 	"tot": "Total",
