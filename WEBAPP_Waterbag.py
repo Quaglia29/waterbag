@@ -131,7 +131,8 @@ translations = {
 	"size": "misura",
 	"tot": "Totale",
 	"single_volume": "Volume singolo",
-	"pieces": "pezzi"
+	"pieces": "pezzi",
+	"warning": "ATTENZIONE: Il campo del nome cliente distingue tra maiuscole e minuscole. Assicurati di inserire i dati correttamente."
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -158,7 +159,8 @@ translations = {
 	"size": "size",
 	"tot": "Total",
 	"single_volume": "Single volume",
-	"pieces": "pieces"
+	"pieces": "pieces",
+	"warning": "CAUTION: The customer name field is case sensitive. Please make sure you enter your data correctly."
 	}
 }
 
@@ -178,6 +180,7 @@ st.title(t("title"))
 # Selezione del cliente
 st.subheader(t("customer_id"))
 cliente = st.text_input(t("enter_name"), value="Default")
+st.markdown(f"<span style='color:red;'>{t('warning')}</span>", unsafe_allow_html=True)
 
 # Crea tre sezioni: colonna per i dati di input, colonna per il disegno e colonna per il riepilogo
 col1, col2, col3 = st.columns([1, 2, 1])  # Layout personalizzato: [1/4, 1/2, 1/4]
