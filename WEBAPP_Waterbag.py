@@ -132,7 +132,8 @@ translations = {
 	"tot": "Totale",
 	"single_volume": "Volume singolo",
 	"pieces": "pezzi",
-	"warning": "ATTENZIONE: Il campo del nome cliente distingue tra maiuscole e minuscole. Assicurati di inserire i dati correttamente."
+	"warning": "ATTENZIONE: Il campo del nome cliente distingue tra maiuscole e minuscole. Assicurati di inserire i dati correttamente",
+	"warning_price": "ATTENZIONE: Se modifichi un prezzo, clicca su 'Salva Prezzi' in fondo al listino prima di disegnare la Trincea"
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -160,7 +161,8 @@ translations = {
 	"tot": "Total",
 	"single_volume": "Single volume",
 	"pieces": "pieces",
-	"warning": "CAUTION: The customer name field is case sensitive. Please make sure you enter your data correctly."
+	"warning": "CAUTION: The customer name field is case sensitive. Please make sure you enter your data correctly",
+	"warning_price": "CAUTION: If you change a price, click on 'Save Prices' at the bottom of the list before you draw the Trench"
 	}
 }
 
@@ -344,6 +346,7 @@ with col2:
 # Colonna destra: riepilogo
 with col3:
     st.subheader(t("summary_section"))
+    st.markdown(f"<span style='color:red;'>{t('warning_price')}</span>", unsafe_allow_html=True)
     prezzo_totale = 0
     volume_totale = 0  # Variabile per calcolare il volume totale
 
