@@ -46,7 +46,7 @@ if not firebase_admin._apps:
     database_url = st.secrets["FIREBASE_KEY"]["databaseURL"]
 
     # Fornisci il certificato e inizializza Firebase
-    cred = credentials.Certificate(firebase_secrets)  # Il percorso del certificato deve essere ancora gestito.
+    cred = credentials.Certificate(firebase_creds)  # Il percorso del certificato deve essere ancora gestito.
     firebase_admin.initialize_app(cred, {
         "databaseURL": database_url
     })
