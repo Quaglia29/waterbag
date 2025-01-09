@@ -132,8 +132,8 @@ translations = {
 	"tot": "Totale",
 	"single_volume": "Volume singolo",
 	"pieces": "pezzi",
-	"warning": "ATTENZIONE: Il campo del nome cliente distingue tra maiuscole e minuscole. Assicurati di inserire i dati correttamente",
-	"warning_price": "ATTENZIONE: Se modifichi un prezzo, clicca su 'Salva Prezzi' in fondo al listino prima di disegnare la Trincea"
+        "warning": "ATTENZIONE: Il campo del nome cliente distingue tra maiuscole e minuscole. Assicurati di inserire i dati correttamente",
+        "warning_price": "ATTENZIONE: Se modifichi un prezzo, clicca su 'Salva Prezzi' in fondo al listino prima di disegnare la Trincea"
     },
     "en": {
         "title": "Calculate Waterbag Bunker",
@@ -161,8 +161,8 @@ translations = {
 	"tot": "Total",
 	"single_volume": "Single volume",
 	"pieces": "pieces",
-	"warning": "CAUTION: The customer name field is case sensitive. Please make sure you enter your data correctly",
-	"warning_price": "CAUTION: If you change a price, click on 'Save Prices' at the bottom of the list before you draw the Trench"
+        "warning": "CAUTION: The customer name field is case sensitive. Please make sure you enter your data correctly",
+        "warning_price": "CAUTION: If you change a price, click on 'Save Prices' at the bottom of the list before you draw the Trench"
 	}
 }
 
@@ -181,8 +181,10 @@ st.title(t("title"))
 
 # Selezione del cliente
 st.subheader(t("customer_id"))
+
 cliente = st.text_input(t("enter_name"), value="Default")
-st.markdown(f"<span style='color:red;'>{t('warning')}</span>", unsafe_allow_html=True)
+cliente = cliente.upper()
+#st.markdown(f"<span style='color:red;'>{t('warning')}</span>", unsafe_allow_html=True)
 
 # Crea tre sezioni: colonna per i dati di input, colonna per il disegno e colonna per il riepilogo
 col1, col2, col3 = st.columns([1, 2, 1])  # Layout personalizzato: [1/4, 1/2, 1/4]
@@ -257,31 +259,55 @@ with col2:
 
         # Funzione per disegnare rettangoli orizzontali
         def disegna_orizzontali(y_start):
-            if larghezza in [1, 7, 9, 11, 13]:
+            if larghezza in [7, 9, 11]:
                 # Rettangolo unico da larghezza + 1 metro
                 extra_larghezza = larghezza + 1
                 x_start = (larghezza - extra_larghezza) / 2
                 ax.add_patch(plt.Rectangle((x_start, y_start), extra_larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), extra_larghezza, f"y={y_start}")
-            elif larghezza <= 16:
+            elif larghezza <= 12:
                 # Rettangolo unico da larghezza
                 ax.add_patch(plt.Rectangle((0, y_start), larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), larghezza, f"y={y_start}")
-            elif larghezza in [18, 22]:
+            elif larghezza in [15, 18, 19, 22]:
                 # Due rettangoli da metà larghezza + 1 metro
-                segment_length = (larghezza / 2) + 1
-                ax.add_patch(plt.Rectangle((-1, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                segment_length = (larghezza // 2) + 1
+                # Punto di partenza disegno rettangoli diverso
+                if larghezza in [15, 19]:
+                    ax.add_patch(plt.Rectangle((-0.5, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                else:
+                    ax.add_patch(plt.Rectangle((-1, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length, f"y={y_start}")
-            elif larghezza in [20, 24]:
+            elif larghezza in [13, 16, 17, 20, 21]:
                 # Due rettangoli, uno da metà larghezza e uno da metà larghezza + 2
-                segment_length_1 = larghezza / 2
+                segment_length_1 = larghezza // 2
                 segment_length_2 = segment_length_1 + 2
                 ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
                 ax.add_patch(plt.Rectangle((segment_length_1 - 1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
+            elif larghezza == 14:
+                segment_length_1 = (larghezza // 2) -1
+                segment_length_2 = segment_length_1 + 2
+                ax.add_patch(plt.Rectangle((0, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(plt.Rectangle((segment_length_1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
+            elif larghezza == 24:
+                segment_length_1 = (larghezza // 3) +2
+                segment_length_2 = (larghezza // 3)
+                segment_length_3 = (larghezza // 3)
+                ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(plt.Rectangle((segment_length_1-1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(plt.Rectangle((segment_length_1 + segment_length_2 -1, y_start), segment_length_3, 0.5, edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_3, f"y={y_start}")
+                
+                
 
         # Disegna i rettangoli orizzontali sopra, sotto e ogni 5 metri dentro la trincea
         disegna_orizzontali(-1)  # Sopra la trincea
@@ -343,6 +369,7 @@ with col2:
     else:
         st.write(t("insert_draw"))
         
+        
 # Colonna destra: riepilogo
 with col3:
     st.subheader(t("summary_section"))
@@ -369,11 +396,11 @@ with col3:
             volume_totale += volume_per_bag * count
             
             # Mostra i dettagli del waterbag nel riepilogo
-            st.write(f"{waterbag}: {count} {t('pieces')} {t('prize_u')}: €{prezzo_unitario:.2f}, {t('tot')}: €{costo_totale:.2f}, {t('single_volume')}: {volume_per_bag:.2f} l")
+            st.write(f"{waterbag}: {count} {t('pieces')} {t('prize_u')}: {prezzo_unitario:.2f}, {t('tot')}: {costo_totale:.2f}, {t('single_volume')}: {volume_per_bag:.2f} l")
 	    
 
         # Mostra il prezzo totale alla fine
-        st.markdown(f"### {t('total_price')}: €{prezzo_totale:.2f}")
+        st.markdown(f"### {t('total_price')}: {prezzo_totale:.2f}")
         
         # Mostra il volume totale necessario
         st.markdown(f"### {t('total_volume')}: {volume_totale:.2f} l")
