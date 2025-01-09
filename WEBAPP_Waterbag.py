@@ -285,8 +285,12 @@ with col2:
                 # Due rettangoli, uno da metà larghezza e uno da metà larghezza + 2
                 segment_length_1 = larghezza // 2
                 segment_length_2 = segment_length_1 + 2
-                ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(plt.Rectangle((segment_length_1 - 1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                if larghezza in [13, 17]:
+                    ax.add_patch(plt.Rectangle((-0.5, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(plt.Rectangle((segment_length_1 - 0.5, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                else:
+                    ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(plt.Rectangle((segment_length_1 - 1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
             elif larghezza == 14:
