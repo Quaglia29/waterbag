@@ -4,6 +4,7 @@ import firebase_admin
 from firebase_admin import credentials, db, initialize_app
 import os
 import json
+from matplotlib.patches import FancyBboxPatch
 
 # Configura il layout della pagina per avere tre colonne
 st.set_page_config(layout="wide")
@@ -244,7 +245,7 @@ with col2:
         fig, ax = plt.subplots(figsize=(6, 6))
 
         # Disegna la trincea principale (rettangolo blu)
-        ax.add_patch(plt.Rectangle((0, 0), larghezza, lunghezza, edgecolor='blue', facecolor='lightblue', lw=2))
+        ax.add_patch(FancyBboxPatch((0, 0), larghezza, lunghezza, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='blue', facecolor='lightblue', lw=2))
 
         # Calcola il numero di sezioni e l'avanzamento
         num_sezioni = lunghezza // 5  # Quante sezioni complete di 5 metri ci sono
@@ -263,22 +264,22 @@ with col2:
                 # Rettangolo unico da larghezza + 1 metro
                 extra_larghezza = larghezza + 1
                 x_start = (larghezza - extra_larghezza) / 2
-                ax.add_patch(plt.Rectangle((x_start, y_start), extra_larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((x_start, y_start), extra_larghezza, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), extra_larghezza, f"y={y_start}")
             elif larghezza <= 12:
                 # Rettangolo unico da larghezza
-                ax.add_patch(plt.Rectangle((0, y_start), larghezza, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((0, y_start), larghezza, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), larghezza, f"y={y_start}")
             elif larghezza in [15, 18, 19, 22]:
                 # Due rettangoli da metà larghezza + 1 metro
                 segment_length = (larghezza // 2) + 1
                 # Punto di partenza disegno rettangoli diverso
                 if larghezza in [15, 19]:
-                    ax.add_patch(plt.Rectangle((-0.5, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
-                    ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((-0.5, y_start), segment_length, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((larghezza / 2, y_start), segment_length, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 else:
-                    ax.add_patch(plt.Rectangle((-1, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
-                    ax.add_patch(plt.Rectangle((larghezza / 2, y_start), segment_length, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((-1, y_start), segment_length, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((larghezza / 2, y_start), segment_length, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length, f"y={y_start}")
             elif larghezza in [13, 16, 17, 20, 21]:
@@ -286,27 +287,27 @@ with col2:
                 segment_length_1 = larghezza // 2
                 segment_length_2 = segment_length_1 + 2
                 if larghezza in [13, 17]:
-                    ax.add_patch(plt.Rectangle((-0.5, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
-                    ax.add_patch(plt.Rectangle((segment_length_1 - 0.5, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((-0.5, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((segment_length_1 - 0.5, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 else:
-                    ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
-                    ax.add_patch(plt.Rectangle((segment_length_1 - 1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((-1, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                    ax.add_patch(FancyBboxPatch((segment_length_1 - 1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
             elif larghezza == 14:
                 segment_length_1 = (larghezza // 2) -1
                 segment_length_2 = segment_length_1 + 2
-                ax.add_patch(plt.Rectangle((0, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(plt.Rectangle((segment_length_1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((0, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((segment_length_1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
             elif larghezza == 24:
                 segment_length_1 = (larghezza // 3) +2
                 segment_length_2 = (larghezza // 3)
                 segment_length_3 = (larghezza // 3)
-                ax.add_patch(plt.Rectangle((-1, y_start), segment_length_1, 0.5, edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(plt.Rectangle((segment_length_1-1, y_start), segment_length_2, 0.5, edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(plt.Rectangle((segment_length_1 + segment_length_2 -1, y_start), segment_length_3, 0.5, edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((-1, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((segment_length_1-1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((segment_length_1 + segment_length_2 -1, y_start), segment_length_3, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_3, f"y={y_start}")
@@ -324,8 +325,9 @@ with col2:
             if avanzamento == 1 and i==(int(num_sezioni)-1):
                 break
             y_start = i * 5
-            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
-            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Destra
+            bordo_raggio = 0.5 
+            ax.add_patch(FancyBboxPatch((-1, y_start), 0.5, 5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(FancyBboxPatch((larghezza + 0.5, y_start), 0.5, 5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))  # Destra
             aggiungi_waterbag(t("vertical"), 5, f"x=-1, y={y_start}")
             aggiungi_waterbag(t("vertical"), 5, f"x={larghezza + 0.5}, y={y_start}")
 
@@ -333,22 +335,22 @@ with col2:
         if avanzamento == 1:
             # Aggiungi un ulteriore rettangolo da 6 metri
             y_start = (num_sezioni-1) * 5
-            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 6, edgecolor='black', facecolor='red', lw=1))  # Sinistra
-            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 6, edgecolor='black', facecolor='red', lw=1))  # Destra
+            ax.add_patch(FancyBboxPatch((-1, y_start), 0.5, 6, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(FancyBboxPatch((larghezza + 0.5, y_start), 0.5, 6, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))  # Destra
             aggiungi_waterbag(t("vertical"), 6, f"x=-1, y={y_start}")
             aggiungi_waterbag(t("vertical"), 6, f"x={larghezza + 0.5}, y={y_start}")
         elif avanzamento == 2:
             # Disegna un rettangolo aggiuntivo da 2 metri
             y_start = num_sezioni * 5
-            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 2, edgecolor='black', facecolor='red', lw=1))  # Sinistra
-            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 2, edgecolor='black', facecolor='red', lw=1))
+            ax.add_patch(FancyBboxPatch((-1, y_start), 0.5, 2, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(FancyBboxPatch((larghezza + 0.5, y_start), 0.5, 2, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
             aggiungi_waterbag(t("vertical"), 2, f"x=-1, y={y_start}")
             aggiungi_waterbag(t("vertical"), 2, f"x={larghezza + 0.5}, y={y_start}")# Destra
         elif avanzamento in [3, 4]:
             # Disegna un rettangolo aggiuntivo da 5 metri (sborda rispetto alla trincea)
             y_start = num_sezioni * 5
-            ax.add_patch(plt.Rectangle((-1, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))  # Sinistra
-            ax.add_patch(plt.Rectangle((larghezza + 0.5, y_start), 0.5, 5, edgecolor='black', facecolor='red', lw=1))
+            ax.add_patch(FancyBboxPatch((-1, y_start), 0.5, 5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))  # Sinistra
+            ax.add_patch(FancyBboxPatch((larghezza + 0.5, y_start), 0.5, 5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
             aggiungi_waterbag(t("vertical"), 5, f"x=-1, y={y_start}")
             aggiungi_waterbag(t("vertical"), 5, f"x={larghezza + 0.5}, y={y_start}")# Destra
             
