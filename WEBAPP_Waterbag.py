@@ -301,17 +301,32 @@ with col2:
                 ax.add_patch(FancyBboxPatch((segment_length_1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
-            elif larghezza == 24:
-                segment_length_1 = (larghezza // 3) +2
-                segment_length_2 = (larghezza // 3)
-                segment_length_3 = (larghezza // 3)
-                ax.add_patch(FancyBboxPatch((-1, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(FancyBboxPatch((segment_length_1-1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
-                ax.add_patch(FancyBboxPatch((segment_length_1 + segment_length_2 -1, y_start), segment_length_3, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+            elif larghezza in [24, 28, 32, 36, 40, 44, 48, 52, 56, 60]:
+                # Due rettangoli da metà larghezza
+                segment_length_1 = (larghezza // 2)
+                segment_length_2 = (larghezza // 2)
+                ax.add_patch(FancyBboxPatch((0, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((segment_length_1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
                 aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
                 aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
-                aggiungi_waterbag(t("horizontal"), segment_length_3, f"y={y_start}")
-                
+
+            elif larghezza in [26, 30, 34, 38, 42, 46, 50, 54, 58]:
+                # Due rettangoli, uno da metà larghezza -1 e uno +1
+                segment_length_1 = (larghezza // 2) -1
+                segment_length_2 = (larghezza // 2) +1
+                ax.add_patch(FancyBboxPatch((0, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((segment_length_1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
+            elif larghezza in [24, 26, 30, 34, 38, 42, 46, 50, 54, 58]:
+                # Due rettangoli da metà larghezza
+                segment_length_1 = (larghezza // 2)
+                segment_length_2 = (larghezza // 2)
+                ax.add_patch(FancyBboxPatch((0, y_start), segment_length_1, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                ax.add_patch(FancyBboxPatch((segment_length_1, y_start), segment_length_2, 0.5, boxstyle=f"round,pad=0.02,rounding_size=0.3", edgecolor='black', facecolor='red', lw=1))
+                aggiungi_waterbag(t("horizontal"), segment_length_1, f"y={y_start}")
+                aggiungi_waterbag(t("horizontal"), segment_length_2, f"y={y_start}")
+
                 
 
         # Disegna i rettangoli orizzontali sopra, sotto e ogni 5 metri dentro la trincea
