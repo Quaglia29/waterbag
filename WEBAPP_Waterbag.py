@@ -69,32 +69,53 @@ def carica_listino(cliente):
     try:
         # Riferimento al nodo del cliente
         ref = db.reference(f"listini/{cliente}")
-        listino = ref.get()
+        listino_esistente = ref.get()
 
-        # Se il nodo non esiste, crea un listino di default
-        if listino is None:
-            listino = [
-                { "misura": 2, "prezzo_unitario": 10 },
-                { "misura": 3, "prezzo_unitario": 11.8 },
-                { "misura": 4, "prezzo_unitario": 13.4 },
-                { "misura": 5, "prezzo_unitario": 15 },
-                { "misura": 6, "prezzo_unitario": 20.6 },
-                { "misura": 8, "prezzo_unitario": 23.5 },
-                { "misura": 10, "prezzo_unitario": 26.30 },
-                { "misura": 12, "prezzo_unitario": 29 },
-                { "misura": 14, "prezzo_unitario": 32.70 },
-                { "misura": 15, "prezzo_unitario": 34.60 },
-                { "misura": 16, "prezzo_unitario": 36 },
-                { "misura": 18, "prezzo_unitario": 39 },
-                { "misura": 20, "prezzo_unitario": 42 },
-                { "misura": 24, "prezzo_unitario": 48 }
-            ]
-            # Salva il listino di default nel database per il nuovo cliente
-            ref.set(listino)
-        return listino
+        # Listino di default con tutte le misure
+        listino_default = [
+            {"misura": 2, "prezzo_unitario": 10},
+            {"misura": 3, "prezzo_unitario": 11.8},
+            {"misura": 4, "prezzo_unitario": 13.4},
+            {"misura": 5, "prezzo_unitario": 15},
+            {"misura": 6, "prezzo_unitario": 20.6},
+            {"misura": 8, "prezzo_unitario": 23.5},
+            {"misura": 10, "prezzo_unitario": 26.3},
+            {"misura": 12, "prezzo_unitario": 29},
+            {"misura": 14, "prezzo_unitario": 32.7},
+            {"misura": 15, "prezzo_unitario": 34.6},
+            {"misura": 16, "prezzo_unitario": 36},
+            {"misura": 18, "prezzo_unitario": 39},
+            {"misura": 20, "prezzo_unitario": 42},
+            {"misura": 24, "prezzo_unitario": 48},
+            {"misura": 26, "prezzo_unitario": 52},
+            {"misura": 28, "prezzo_unitario": 56},
+            {"misura": 30, "prezzo_unitario": 60},
+        ]
+
+        # Se il listino non esiste, lo crea da zero
+        if listino_esistente is None:
+            ref.set(listino_default)
+            return listino_default
+        
+        # Se il listino esiste, aggiorna solo le voci mancanti senza sovrascrivere i prezzi esistenti
+        listino_aggiornato = {item["misura"]: item["prezzo_unitario"] for item in listino_esistente}
+
+        for item in listino_default:
+            if item["misura"] not in listino_aggiornato:
+                listino_aggiornato[item["misura"]] = item["prezzo_unitario"]  # Aggiungi solo se manca
+
+        # Converti il dizionario in lista per mantenere la struttura originale
+        listino_finale = [{"misura": misura, "prezzo_unitario": prezzo} for misura, prezzo in sorted(listino_aggiornato.items())]
+
+        # Salva il listino aggiornato nel database
+        ref.set(listino_finale)
+
+        return listino_finale
+
     except Exception as e:
         st.error(f"Errore durante il caricamento del listino: {e}")
         return []
+
 
 # Funzione per salvare il listino personalizzato
 def salva_listino(cliente, listino):
